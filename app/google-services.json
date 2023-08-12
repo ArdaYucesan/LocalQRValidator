@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "632413076120",
+    "project_id": "qrreader-989a7",
+    "storage_bucket": "qrreader-989a7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:632413076120:android:4b1b2ddda889f3e8eb2eed",
+        "android_client_info": {
+          "package_name": "com.ssidglobal.qrreader"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "632413076120-i30dvphuse5gfaqqm84q28b1cpnstd09.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZn28vkZqvt_BXwNjZKMMWo5IzCIFTksE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "632413076120-i30dvphuse5gfaqqm84q28b1cpnstd09.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
