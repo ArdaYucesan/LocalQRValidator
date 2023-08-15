@@ -1,6 +1,6 @@
 package com.akash.mybarcodescanner.di
 
-import com.akash.mybarcodescanner.data.repo.ScannerRepoImpl
+import com.ssidglobal.qrreader.data.repositories.ScannerRepoImpl
 import com.akash.mybarcodescanner.domain.repo.ScannerRepo
 import dagger.Binds
 import dagger.Module

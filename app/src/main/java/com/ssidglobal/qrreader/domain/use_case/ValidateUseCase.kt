@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.takeWhile
 import java.io.IOException
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class ValidateUseCase @Inject constructor(
@@ -28,14 +29,15 @@ class ValidateUseCase @Inject constructor(
 
         val validatedQR = codesList?.find { it.value == qrValue }
 
-
+        Log.d("__", "onEvent: time : ${LocalDateTime.now()}")
 
         if (validatedQR != null) {
             return QRData(
                 qrOwner = validatedQR.qrOwner,
                 value = validatedQR.value,
                 id = validatedQR.id,
-                isValid = true
+                isValid = true,
+                updatedAt = LocalDateTime.now()
             )
         } else {
             return null

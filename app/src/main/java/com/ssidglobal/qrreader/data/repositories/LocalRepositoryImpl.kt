@@ -1,4 +1,4 @@
-package com.ssidglobal.qrreader.data.Repositories
+package com.ssidglobal.qrreader.data.repositories
 
 import com.ssidglobal.qrreader.data.data_source.QRCodeDao
 import com.ssidglobal.qrreader.domain.Repositories.LocalRepository

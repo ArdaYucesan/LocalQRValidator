@@ -1,4 +1,4 @@
-package com.ssidglobal.qrreader.data.Repositories
+package com.ssidglobal.qrreader.data.repositories
 
 import com.google.gson.JsonObject
 import com.ssidglobal.qrreader.domain.Repositories.ApiRepository

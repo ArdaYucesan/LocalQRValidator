@@ -26,6 +26,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -80,7 +82,8 @@ class QRScannerViewModel @Inject constructor(
 
             is QRScannerEvent.onQRTest -> {
                 viewModelScope.launch {
-                    saveUseCase(QRData("baba", "arda", true))
+                    Log.d("__", "onEvent: time : ${LocalDateTime.now()}")
+//                    saveUseCase(QRData("baba", "arda", true, updatedAt = LocalDateTime.now()))
                 }
             }
         }
@@ -106,7 +109,7 @@ class QRScannerViewModel @Inject constructor(
 
         validateJob = getAllUseCase.invoke().onEach { codes ->
             scannerState.value = scannerState.value.copy(
-                validQRCodes = codes.filter { it.isValid == true }
+                validQRCodes = codes.filter { it.isValid == true }.sortedByDescending { it.updatedAt }
             )
 
         }.launchIn(viewModelScope)

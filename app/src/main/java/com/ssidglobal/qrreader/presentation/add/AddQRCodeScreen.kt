@@ -22,15 +22,23 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.QrCode
+import androidx.compose.material.icons.filled.QrCodeScanner
+import androidx.compose.material.icons.filled.Scanner
+import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -168,7 +176,7 @@ fun AddQRCode(
             })
         },
         topBar = {
-            HomeTopAppBar(title="Bilet Kayıt")
+            HomeTopAppBar(title = "Bilet Kayıt")
         },
         bottomBar = {
             QRReaderBottomBar(
@@ -201,56 +209,83 @@ fun AddQRCode(
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
 
-                        OutlinedTextField(
-                            modifier = Modifier,
-                            value = state.qrOwner,
-                            onValueChange = { value ->
-                                onEvent(AddQREvent.QRCodeOwnerEntered(value))
-                            },
-                            label = { Text("Bilet Sahibi") },
-                            trailingIcon = {
-                                when {
-                                    state.qrOwner.isNotEmpty() -> IconButton(onClick = {
-                                        onEvent(AddQREvent.QRCodeOwnerEntered(""))
-                                    }) {
-                                        Icon(
-                                            imageVector = Icons.Filled.Clear,
-                                            contentDescription = "Clear"
-                                        )
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+
+                            OutlinedTextField(
+                                modifier = Modifier.padding(10.dp),
+                                value = state.qrOwner,
+                                onValueChange = { value ->
+                                    onEvent(AddQREvent.QRCodeOwnerEntered(value))
+                                },
+                                label = { Text("Bilet Sahibi") },
+                                trailingIcon = {
+                                    when {
+                                        state.qrOwner.isNotEmpty() -> IconButton(onClick = {
+                                            onEvent(AddQREvent.QRCodeOwnerEntered(""))
+                                        }) {
+                                            Icon(
+                                                imageVector = Icons.Filled.Close,
+                                                contentDescription = "Clear"
+                                            )
+                                        }
                                     }
-                                }
-                            },
-                            keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-                            keyboardOptions = KeyboardOptions.Default.copy(
-                                imeAction = ImeAction.Done,
-                                keyboardType = KeyboardType.Text
-                            ),
-                        )
-                        OutlinedTextField(
-                            modifier = Modifier.padding(10.dp),
-                            value = state.qrValue,
-                            onValueChange = { value ->
-                                onEvent(AddQREvent.QRCodeValueEntered(value))
-                            },
-                            label = { Text("QR Kod") },
-                            trailingIcon = {
-                                when {
-                                    state.qrValue.isNotEmpty() -> IconButton(onClick = {
-                                        onEvent(AddQREvent.QRCodeValueEntered(""))
-                                    }) {
-                                        Icon(
-                                            imageVector = Icons.Filled.Clear,
-                                            contentDescription = "Clear"
-                                        )
+                                },
+                                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                                keyboardOptions = KeyboardOptions.Default.copy(
+                                    imeAction = ImeAction.Done,
+                                    keyboardType = KeyboardType.Text
+                                ),
+                            )
+                            IconButton(onClick = { }) {
+
+                                Icon(
+                                    modifier = Modifier
+                                        .width(30.dp)
+                                        .height(30.dp),
+                                    imageVector = Icons.Default.VerifiedUser,
+                                    contentDescription = "scanner"
+                                )
+                            }
+                        }
+
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+
+                            OutlinedTextField(
+                                modifier = Modifier.padding(10.dp),
+                                value = state.qrValue,
+                                onValueChange = { value ->
+                                    onEvent(AddQREvent.QRCodeValueEntered(value))
+                                },
+                                label = { Text("QR Kod") },
+                                trailingIcon = {
+                                    when {
+                                        state.qrValue.isNotEmpty() -> IconButton(onClick = {
+                                            onEvent(AddQREvent.QRCodeValueEntered(""))
+                                        }) {
+                                            Icon(
+                                                imageVector = Icons.Filled.Clear,
+                                                contentDescription = "Clear"
+                                            )
+                                        }
                                     }
-                                }
-                            },
-                            keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-                            keyboardOptions = KeyboardOptions.Default.copy(
-                                imeAction = ImeAction.Done,
-                                keyboardType = KeyboardType.Text
-                            ),
-                        )
+                                },
+                                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                                keyboardOptions = KeyboardOptions.Default.copy(
+                                    imeAction = ImeAction.Done,
+                                    keyboardType = KeyboardType.Text
+                                ),
+                            )
+                            IconButton(onClick = { onEvent(AddQREvent.onQRReadClicked) }) {
+
+                                Icon(
+                                    modifier = Modifier
+                                        .width(30.dp)
+                                        .height(30.dp),
+                                    imageVector = Icons.Default.QrCodeScanner,
+                                    contentDescription = "scanner"
+                                )
+                            }
+                        }
                         OutlinedButton(
                             onClick = {
                                 focusManager.clearFocus()
@@ -275,6 +310,11 @@ fun AddQRCode(
 @Composable
 private fun SearchBarPreview() {
     QRReaderTheme {
-        AddQRCode(onNavigateToRoute = {}, onEvent = {}, snackbarHostState = SnackbarHostState() , state = AddQRScreenState())
+        AddQRCode(
+            onNavigateToRoute = {},
+            onEvent = {},
+            snackbarHostState = SnackbarHostState(),
+            state = AddQRScreenState()
+        )
     }
 }

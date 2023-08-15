@@ -1,8 +1,12 @@
-package com.akash.mybarcodescanner.data.repo
+package com.ssidglobal.qrreader.data.repositories
 
+import android.util.Log
+import androidx.compose.ui.tooling.preview.Preview
 import com.akash.mybarcodescanner.domain.repo.ScannerRepo
+import com.google.mlkit.common.MlKitException
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanner
+import com.ssidglobal.qrreader.R
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -13,7 +17,6 @@ class ScannerRepoImpl @Inject constructor(
     private val scanner: GmsBarcodeScanner,
 ) : ScannerRepo {
 
-
     override fun startScanning(): Flow<String?> {
         return callbackFlow {
             scanner.startScan()
@@ -21,14 +24,14 @@ class ScannerRepoImpl @Inject constructor(
                     launch {
                         send(getDetails(it))
                     }
-                }.addOnFailureListener {
-                    it.printStackTrace()
+                }
+                .addOnFailureListener { e: Exception -> Log.e("__Vision", "startScanning: error : ${e.message}") }
+                .addOnCanceledListener {
+                    Log.e("__Vision", "startScanning: canceled")
                 }
             awaitClose {  }
         }
     }
-
-
 
     private fun getDetails(barcode: Barcode): String {
         return when (barcode.valueType) {
